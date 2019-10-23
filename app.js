@@ -25,13 +25,19 @@ const authRoutes = require("./routes/auth");
 
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-app.use(cookieParser);
+app.use(cookieParser());
 app.use(expressValid());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).json({error: "Unauthorized"});
+  }
+});
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`Node JS API at: ${8080}`);
+  console.log(`Node JS API at: ${port}`);
 });
