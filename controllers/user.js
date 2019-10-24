@@ -20,6 +20,7 @@ exports.hasAuthorization = (req, res, next) => {
             error: "User is not authorized to perform this action"
         });
     };
+    next();
 };
 
 exports.allUsers = (req, res) => {
